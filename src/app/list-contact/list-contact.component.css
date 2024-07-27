@@ -1,0 +1,93 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+}
+.sidebar {
+  background-color: #fff;
+  height: 100vh;
+  width: 250px;
+  padding: 20px;
+  border-right: 1px solid #e0e0e0;
+}
+.sidebar .logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.sidebar .logo div {
+  width: 40px;
+  height: 40px;
+  background-color: #6f42c1;
+  border-radius: 10px;
+}
+.sidebar .logo span {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.sidebar .nav-link {
+  color: #6c757d;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.sidebar .nav-link.active {
+  color: #6f42c1;
+}
+.content {
+  padding: 20px;
+  width: 100%;
+}
+.content .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.content .header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+.content .header .btn {
+  background-color: #6f42c1;
+  color: #fff;
+}
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.card img {
+  border-radius: 10px 10px 0 0;
+}
+.card .card-body {
+  padding: 15px;
+}
+.card .card-body .name {
+  font-size: 18px;
+  font-weight: bold;
+}
+.card .card-body .badge {
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.card .card-body .contact-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.card .card-body .contact-info i {
+  color: #6f42c1;
+  margin-right: 10px;
+}
+.pagination {
+  justify-content: center;
+}
+.pagination .page-item .page-link {
+  color: #6f42c1;
+}
+.pagination .page-item.active .page-link {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
