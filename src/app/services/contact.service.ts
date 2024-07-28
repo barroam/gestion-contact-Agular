@@ -45,4 +45,8 @@ export class ContactService {
   getContacts(): Contact[] {
     return this.contacts;
   }
+  deleteContact(email: string): void {
+    this.contacts = this.contacts.filter(contact => contact.email !== email);
+    this.saveContactsToLocalStorage();
+  }
 }
