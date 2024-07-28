@@ -1,42 +1,40 @@
-<body>
-  <div class="d-flex">
-    <div class="sidebar">
-      <div class="logo d-flex align-items-center">
-        <img alt="Logo" src = ""/>
-        <span>GAL-CALL</span>
-      </div>
-      <nav class="nav flex-column mt-4">
-        <a class="nav-link active" href="#">
-          <i class="fas fa-address-book"></i> Contact
-        </a>
-        <a class="nav-link" href="#">
-          <i class="fas fa-sign-out-alt"></i> Log out
-        </a>
-      </nav>
+<div class="d-flex">
+  <div class="sidebar">
+    <div class="logo d-flex align-items-center">
+      <img alt="Logo" src=""/>
+      <span>GAL-CALL</span>
     </div>
-    <div class="content flex-grow-1 p-3">
-      <h2>Enregistrer un nouveau contact</h2>
-      <form>
-        <div class="input-group mb-3">
-          <span class="input-group-text">
-            <i class="fas fa-user"></i>
-          </span>
-          <input aria-label="Name" class="form-control" placeholder="Alpha" type="text"/>
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <input aria-label="Email" class="form-control" placeholder="alphalopeccity@gmail.com" type="email"/>
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">
-            <i class="fas fa-phone"></i>
-          </span>
-          <input aria-label="Phone" class="form-control" placeholder="Phone number" type="text"/>
-        </div>
-        <button class="btn btn-primary" type="submit">Enregistrer</button>
-      </form>
-    </div>
+    <nav class="nav flex-column mt-4">
+      <a class="nav-link active" href="#">
+        <i class="fas fa-address-book"></i> Contact
+      </a>
+      <a class="nav-link" href="#">
+        <i class="fas fa-sign-out-alt"></i> Log out
+      </a>
+    </nav>
   </div>
-</body>
+  <div class="content flex-grow-1 p-3">
+    <h2>Enregistrer un nouveau contact</h2>
+    <form (ngSubmit)="onAddContact()">
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-user"></i>
+        </span>
+        <input aria-label="Name" class="form-control" placeholder="Alpha" type="text" [(ngModel)]="nom" name="name" required/>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <input aria-label="Email" class="form-control" placeholder="alphalopeccity@gmail.com" type="email" [(ngModel)]="email" name="email" required/>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fas fa-phone"></i>
+        </span>
+        <input aria-label="Phone" class="form-control" placeholder="Phone number" type="text" [(ngModel)]="telephone" name="telephone" required/>
+      </div>
+      <button class="btn btn-primary" type="submit">Enregistrer</button>
+    </form>
+  </div>
+</div>
