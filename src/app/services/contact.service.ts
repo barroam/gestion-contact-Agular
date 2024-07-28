@@ -49,4 +49,11 @@ export class ContactService {
     this.contacts = this.contacts.filter(contact => contact.email !== email);
     this.saveContactsToLocalStorage();
   }
+  updateContact(updatedContact: Contact): void {
+    const index = this.contacts.findIndex(contact => contact.email === updatedContact.email);
+    if (index !== -1) {
+      this.contacts[index] = updatedContact;
+      this.saveContactsToLocalStorage();
+    }
+  }
 }
