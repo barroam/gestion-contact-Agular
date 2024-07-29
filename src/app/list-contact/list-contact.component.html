@@ -9,7 +9,7 @@
         <i class="fas fa-address-book me-2"></i>
         Contact
       </a>
-      <a class="nav-link" href="#">
+      <a class="nav-link" (click)="logout()">
         <i class="fas fa-sign-out-alt me-2"></i>
         Déconnexion
       </a>
@@ -59,12 +59,10 @@
         </div>
       </div>
 
-      <!-- Button qui affiche les contact supprimer  -->
       <button (click)="toggleDeletedContacts()" class="btn btn-secondary mt-4">
         {{ showDeletedContacts ? ' Masquer ' : 'Afficher ' }}Les Contacts supprimer
       </button>
 
-      <!-- List des contact supprimer  -->
       <div *ngIf="showDeletedContacts" class="mt-4">
         <h3>Contacts supprimer</h3>
         <ul class="list-group">
@@ -75,7 +73,6 @@
         </ul>
       </div>
 
-      <!-- Formulaire de modification -->
       <div *ngIf="editingContact" class="mt-4">
         <h3>Modifier le contact</h3>
         <form (ngSubmit)="saveContact()">
