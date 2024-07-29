@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact';
-import { AddContactComponent } from '../add-contact/add-contact.component'; // Import the AddContactComponent
+import { AddContactComponent } from '../add-contact/add-contact.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -16,6 +16,8 @@ import { RouterLink } from '@angular/router';
 export class ListContactComponent implements OnInit {
   contacts: Contact[] = [];
   deletedContacts: Contact[] = [];
+  filteredContacts: Contact[] = [];
+  searchTerm: string = '';
   editingContact: Contact | null = null;
   showAddContact: boolean = false;
   showDeletedContacts: boolean = false;
@@ -24,18 +26,21 @@ export class ListContactComponent implements OnInit {
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
+    this.filterContacts();
     this.deletedContacts = this.contactService.getDeletedContacts();
   }
 
   deleteContact(email: string): void {
     this.contactService.deleteContact(email);
     this.contacts = this.contactService.getContacts();
+    this.filterContacts();
     this.deletedContacts = this.contactService.getDeletedContacts();
   }
 
   restoreContact(email: string): void {
     this.contactService.restoreContact(email);
     this.contacts = this.contactService.getContacts();
+    this.filterContacts();
     this.deletedContacts = this.contactService.getDeletedContacts();
   }
 
@@ -47,6 +52,7 @@ export class ListContactComponent implements OnInit {
     if (this.editingContact) {
       this.contactService.updateContact(this.editingContact);
       this.contacts = this.contactService.getContacts();
+      this.filterContacts();
       this.editingContact = null;
     }
   }
@@ -59,12 +65,20 @@ export class ListContactComponent implements OnInit {
     this.showAddContact = !this.showAddContact;
   }
 
+  onContactAdded(): void {
+    this.showAddContact = false;
+    this.contacts = this.contactService.getContacts();
+    this.filterContacts();
+  }
+
   toggleDeletedContacts(): void {
     this.showDeletedContacts = !this.showDeletedContacts;
   }
 
-  onContactAdded(): void {
-    this.showAddContact = false;
-    this.contacts = this.contactService.getContacts();
+  filterContacts(): void {
+    this.filteredContacts = this.contacts.filter(contact =>
+      contact.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      contact.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 }

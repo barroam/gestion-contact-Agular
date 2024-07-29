@@ -25,8 +25,13 @@
         <button class="btn btn-primary" routerLink="addcontact">Nouveau contact</button>
       </div>
 
+      <!-- Search input -->
+      <div class="mb-4">
+        <input type="text" class="form-control" placeholder="Rechercher un contact..." [(ngModel)]="searchTerm" (input)="filterContacts()">
+      </div>
+
       <div class="row">
-        <div *ngFor="let contact of contacts" class="col-md-4">
+        <div *ngFor="let contact of filteredContacts" class="col-md-4">
           <div class="card">
             <img [src]="contact.imageUrl || 'https://placehold.co/150x150'" class="card-img-top" [alt]="'Profile picture of ' + contact.nom">
             <div class="card-body">
@@ -55,18 +60,18 @@
         </div>
       </div>
 
-      <!-- Button to toggle showing deleted contacts -->
+      <!-- Button qui affiche les contact supprimer  -->
       <button (click)="toggleDeletedContacts()" class="btn btn-secondary mt-4">
-        {{ showDeletedContacts ? '' : '' }} contact supprimer
+        {{ showDeletedContacts ? 'Masquer' : 'Afficher' }}Les Contacts supprimer
       </button>
 
-      <!-- List of deleted contacts -->
+      <!-- List des contact supprimer  -->
       <div *ngIf="showDeletedContacts" class="mt-4">
-        <h3>Listes Contacts supprimer</h3>
+        <h3>Contacts supprimer</h3>
         <ul class="list-group">
           <li *ngFor="let contact of deletedContacts" class="list-group-item d-flex justify-content-between align-items-center">
             {{ contact.nom }} ({{ contact.email }})
-            <button class="btn btn-sm btn-outline-success" (click)="restoreContact(contact.email)">Restore</button>
+            <button class="btn btn-sm btn-outline-success" (click)="restoreContact(contact.email)">Restorer</button>
           </li>
         </ul>
       </div>
