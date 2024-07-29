@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact';
 import { Router } from '@angular/router';
-
+import { UtilisateurService } from '../services/utilisateurs.services.ts.service';
 @Component({
   selector: 'app-add-contact',
   standalone: true,
@@ -18,16 +18,21 @@ export class AddContactComponent {
   email: string = '';
   telephone: string = '';
 
-  constructor(private contactService: ContactService, private router: Router) {}
+  constructor(
+    private contactService: ContactService,
+    private utilisateurService: UtilisateurService,
+    private router: Router
+  ) {}
 
   onAddContact() {
-    if (this.nom && this.email && this.telephone) {
-      const newContact = new Contact(this.nom, this.email, this.telephone);
+    const currentUser = this.utilisateurService.getCurrentUser();
+    if (currentUser && this.nom && this.email && this.telephone) {
+      const newContact = new Contact(this.nom, this.email, this.telephone, currentUser.email);
       this.contactService.addContact(newContact);
       this.clearForm();
       alert('Contact enregistré avec succès!');
       this.contactAdded.emit();
-      this.router.navigate(['']); 
+      this.router.navigate(['']);
     } else {
       alert('Veuillez remplir tous les champs.');
     }

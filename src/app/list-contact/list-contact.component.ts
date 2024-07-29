@@ -5,7 +5,7 @@ import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact';
 import { AddContactComponent } from '../add-contact/add-contact.component';
 import { RouterLink } from '@angular/router';
-
+import { UtilisateurService } from '../services/utilisateurs.services.ts.service';
 @Component({
   selector: 'app-list-contact',
   standalone: true,
@@ -22,7 +22,7 @@ export class ListContactComponent implements OnInit {
   showAddContact: boolean = false;
   showDeletedContacts: boolean = false;
 
-  constructor(private contactService: ContactService) {}
+  constructor(private contactService: ContactService, private utilisateurService: UtilisateurService) {}
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();

@@ -3,8 +3,10 @@ export class Contact {
     public nom: string,
     public email: string,
     public telephone: string,
+    public userId: string, 
     public imageUrl?: string,
     public status?: boolean
   ) {}
 }
+
 

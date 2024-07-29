@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact';
+import { UtilisateurService } from './utilisateurs.services.ts.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ContactService {
   private localStorageKey = 'contacts';
   private localStorageDeletedKey = 'deletedContacts';
 
-  constructor() {
+  constructor(private utilisateurService: UtilisateurService) {
     if (this.isLocalStorageAvailable()) {
       this.loadContactsFromLocalStorage();
       this.loadDeletedContactsFromLocalStorage();
@@ -55,12 +56,22 @@ export class ContactService {
   }
 
   addContact(contact: Contact): void {
-    this.contacts.push(contact);
-    this.saveContactsToLocalStorage();
+    const currentUser = this.utilisateurService.getCurrentUser();
+    if (currentUser) {
+      contact.userId = currentUser.email; 
+      this.contacts.push(contact);
+      this.saveContactsToLocalStorage();
+    } else {
+      alert('Veuillez vous connecter pour ajouter un contact.');
+    }
   }
 
   getContacts(): Contact[] {
-    return this.contacts;
+    const currentUser = this.utilisateurService.getCurrentUser();
+    if (currentUser) {
+      return this.contacts.filter(contact => contact.userId === currentUser.email);
+    }
+    return [];
   }
 
   deleteContact(email: string): void {
@@ -74,7 +85,11 @@ export class ContactService {
   }
 
   getDeletedContacts(): Contact[] {
-    return this.deletedContacts;
+    const currentUser = this.utilisateurService.getCurrentUser();
+    if (currentUser) {
+      return this.deletedContacts.filter(contact => contact.userId === currentUser.email);
+    }
+    return [];
   }
 
   restoreContact(email: string): void {

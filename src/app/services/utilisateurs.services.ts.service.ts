@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Utilisateur } from '../models/utilisateur';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UtilisateurService {
   private utilisateurs: Utilisateur[] = [];
   private localStorageKey = 'utilisateurs';
+  private currentUserKey = 'currentUser';
 
   constructor() {
     if (this.isLocalStorageAvailable()) {
@@ -39,6 +41,22 @@ export class UtilisateurService {
     }
   }
 
+  private saveCurrentUserToLocalStorage(utilisateur: Utilisateur): void {
+    if (this.isLocalStorageAvailable()) {
+      localStorage.setItem(this.currentUserKey, JSON.stringify(utilisateur));
+    }
+  }
+
+  private getCurrentUserFromLocalStorage(): Utilisateur | null {
+    if (this.isLocalStorageAvailable()) {
+      const storedCurrentUser = localStorage.getItem(this.currentUserKey);
+      if (storedCurrentUser) {
+        return JSON.parse(storedCurrentUser);
+      }
+    }
+    return null;
+  }
+
   addUtilisateur(utilisateur: Utilisateur): void {
     this.utilisateurs.push(utilisateur);
     this.saveUtilisateursToLocalStorage();
@@ -50,7 +68,20 @@ export class UtilisateurService {
 
   login(email: string, password: string): boolean {
     const utilisateur = this.utilisateurs.find(u => u.email === email && u.password === password);
-    return utilisateur !== undefined;
+    if (utilisateur) {
+      this.saveCurrentUserToLocalStorage(utilisateur);
+      return true;
+    }
+    return false;
   }
 
+  getCurrentUser(): Utilisateur | null {
+    return this.getCurrentUserFromLocalStorage();
+  }
+
+  logout(): void {
+    if (this.isLocalStorageAvailable()) {
+      localStorage.removeItem(this.currentUserKey);
+    }
+  }
 }
