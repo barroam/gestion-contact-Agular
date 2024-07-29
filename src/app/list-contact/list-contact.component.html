@@ -16,13 +16,13 @@
     </nav>
   </div>
   <div class="content flex-grow-1 p-4">
-    <div *ngIf="!showAddContact"> <!-- Conditionally display the header and contact list -->
+    <div *ngIf="!showAddContact">
       <div class="header d-flex justify-content-between align-items-center mb-4">
         <div>
           <h1>Contacts</h1>
           <p>Liste de mes contacts</p>
         </div>
-        <button class="btn btn-primary" (click)="toggleAddContact()">Nouveau contact</button>
+        <button class="btn btn-primary" routerLink="addcontact">Nouveau contact</button>
       </div>
 
       <div class="row">
@@ -55,6 +55,22 @@
         </div>
       </div>
 
+      <!-- Button to toggle showing deleted contacts -->
+      <button (click)="toggleDeletedContacts()" class="btn btn-secondary mt-4">
+        {{ showDeletedContacts ? '' : '' }} contact supprimer
+      </button>
+
+      <!-- List of deleted contacts -->
+      <div *ngIf="showDeletedContacts" class="mt-4">
+        <h3>Listes Contacts supprimer</h3>
+        <ul class="list-group">
+          <li *ngFor="let contact of deletedContacts" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ contact.nom }} ({{ contact.email }})
+            <button class="btn btn-sm btn-outline-success" (click)="restoreContact(contact.email)">Restore</button>
+          </li>
+        </ul>
+      </div>
+
       <!-- Formulaire de modification -->
       <div *ngIf="editingContact" class="mt-4">
         <h3>Modifier le contact</h3>
@@ -85,6 +101,6 @@
       </div>
     </div>
 
-    <app-add-contact *ngIf="showAddContact" (contactAdded)="onContactAdded()"></app-add-contact> <!-- Include the AddContactComponent -->
+    <app-add-contact *ngIf="showAddContact" (contactAdded)="onContactAdded()"></app-add-contact>
   </div>
 </div>

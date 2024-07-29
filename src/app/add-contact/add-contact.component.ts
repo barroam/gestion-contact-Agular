@@ -3,10 +3,11 @@ import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-add-contact',
   standalone: true,
-  imports: [FormsModule, NgIf, NgFor],
+  imports: [FormsModule, NgIf, NgFor, RouterLink],
   templateUrl: './add-contact.component.html',
   styleUrls: ['./add-contact.component.css']
 })

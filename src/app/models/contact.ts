@@ -4,7 +4,7 @@ export class Contact {
     public email: string,
     public telephone: string,
     public imageUrl?: string,
-    public status?: string
+    public status?: boolean
   ) {}
 }
 
