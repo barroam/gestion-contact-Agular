@@ -59,6 +59,9 @@ body {
 }
 .card img {
   border-radius: 10px 10px 0 0;
+  width: 100%;        /* Utilise toute la largeur du conteneur */
+  height: 250px;
+  object-fit: cover;
 }
 .card .card-body {
   padding: 15px;
