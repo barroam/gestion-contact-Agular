@@ -3,17 +3,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact';
+import { AddContactComponent } from '../add-contact/add-contact.component'; // Import the AddContactComponent
+
 
 @Component({
   selector: 'app-list-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AddContactComponent],
   templateUrl: './list-contact.component.html',
   styleUrls: ['./list-contact.component.css']
 })
 export class ListContactComponent implements OnInit {
   contacts: Contact[] = [];
   editingContact: Contact | null = null;
+  showAddContact: boolean = false;
 
   constructor(private contactService: ContactService) {}
 
@@ -38,5 +41,12 @@ export class ListContactComponent implements OnInit {
 
   cancelEdit(): void {
     this.editingContact = null;
+  }
+  toggleAddContact(): void {
+    this.showAddContact = !this.showAddContact;
+  }
+  onContactAdded(): void {
+    this.showAddContact = false;
+    this.contacts = this.contactService.getContacts();
   }
 }

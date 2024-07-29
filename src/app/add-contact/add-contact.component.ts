@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../services/contact.service';
@@ -11,6 +11,7 @@ import { Contact } from '../models/contact';
   styleUrls: ['./add-contact.component.css']
 })
 export class AddContactComponent {
+  @Output() contactAdded = new EventEmitter<void>();
   nom: string = '';
   email: string = '';
   telephone: string = '';
@@ -23,6 +24,7 @@ export class AddContactComponent {
       this.contactService.addContact(newContact);
       this.clearForm();
       alert('Contact enregistré avec succès!');
+      this.contactAdded.emit();
     } else {
       alert('Veuillez remplir tous les champs.');
     }
