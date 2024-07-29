@@ -1,337 +1,111 @@
 <div class="d-flex">
   <div class="sidebar p-3">
-      <div class="logo d-flex align-items-center mb-4">
-          <div></div>
-          <span class="ms-2 fw-bold">GAL-CALL</span>
-      </div>
-      <nav class="nav flex-column">
-          <a class="nav-link active" href="#">
-              <i class="fas fa-address-book me-2"></i>
-              Contact
-          </a>
-          <a class="nav-link" href="#">
-              <i class="fas fa-sign-out-alt me-2"></i>
-              Log out
-          </a>
-      </nav>
+    <div class="logo d-flex align-items-center mb-4">
+      <div></div>
+      <span class="ms-2 fw-bold">GAL-CALL</span>
+    </div>
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="#">
+        <i class="fas fa-address-book me-2"></i>
+        Contact
+      </a>
+      <a class="nav-link" href="#">
+        <i class="fas fa-sign-out-alt me-2"></i>
+        Déconnexion
+      </a>
+    </nav>
   </div>
   <div class="content flex-grow-1 p-4">
+    <div *ngIf="!showAddContact">
       <div class="header d-flex justify-content-between align-items-center mb-4">
-          <div>
-              <h1>Contacts</h1>
-              <p>Liste de mes contacts</p>
-          </div>
-          <button class="btn btn-primary">Nouveau contact</button>
+        <div>
+          <h1>Contacts</h1>
+          <p>Liste de mes contacts</p>
+        </div>
+        <button class="btn btn-primary" routerLink="addcontact">Nouveau contact</button>
       </div>
+
+      <!-- Search input -->
+      <div class="mb-4">
+        <input type="text" class="form-control" placeholder="Rechercher un contact..." [(ngModel)]="searchTerm" (input)="filterContacts()">
+      </div>
+
       <div class="row">
-          <!-- Contact Card 1 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
+        <div *ngFor="let contact of filteredContacts" class="col-md-4">
+          <div class="card">
+            <img [src]="contact.imageUrl || 'https://placehold.co/150x150'" class="card-img-top" [alt]="'Profile picture of ' + contact.nom">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="name">{{ contact.nom }}</span>
+                <span class="badge bg-success">{{ contact.status }}</span>
               </div>
-          </div>
-          <!-- Contact Card 2 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
+              <div class="contact-info mt-2">
+                <i class="fas fa-phone"></i>
+                <span>{{ contact.telephone }}</span>
               </div>
-          </div>
-          <!-- Contact Card 3 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
+              <div class="contact-info mt-2">
+                <i class="fas fa-envelope"></i>
+                <span>{{ contact.email }}</span>
               </div>
-          </div>
-          <!-- Contact Card 4 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
+              <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-sm btn-outline-secondary me-2" (click)="startEditing(contact)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteContact(contact.email)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </div>
+            </div>
           </div>
-          <!-- Contact Card 5 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 6 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 7 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 8 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 9 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 10 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 11 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 12 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 13 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 14 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!-- Contact Card 15 -->
-          <div class="col-md-4">
-              <div class="card">
-                  <img src="https://placehold.co/150x150" class="card-img-top" alt="Profile picture of Angela Moss">
-                  <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <span class="name">Demba ndiaye </span>
-                          <span class="badge bg-success">Hs</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-phone"></i>
-                          <span>+221 78 105 10 02</span>
-                      </div>
-                      <div class="contact-info mt-2">
-                          <i class="fas fa-envelope"></i>
-                          <span>demba.ndiaye&#64;exemple.com</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
-      <nav aria-label="Page navigation example">
-          <ul class="pagination mt-4">
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-      </ul>
-      </nav>
+
+      <!-- Button qui affiche les contact supprimer  -->
+      <button (click)="toggleDeletedContacts()" class="btn btn-secondary mt-4">
+        {{ showDeletedContacts ? ' Masquer ' : 'Afficher ' }}Les Contacts supprimer
+      </button>
+
+      <!-- List des contact supprimer  -->
+      <div *ngIf="showDeletedContacts" class="mt-4">
+        <h3>Contacts supprimer</h3>
+        <ul class="list-group">
+          <li *ngFor="let contact of deletedContacts" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ contact.nom }} ({{ contact.email }})
+            <button class="btn btn-sm btn-outline-success" (click)="restoreContact(contact.email)">Restorer</button>
+          </li>
+        </ul>
       </div>
+
+      <!-- Formulaire de modification -->
+      <div *ngIf="editingContact" class="mt-4">
+        <h3>Modifier le contact</h3>
+        <form (ngSubmit)="saveContact()">
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="nom" [(ngModel)]="editingContact.nom" name="nom" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="editingContact.email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="telephone" class="form-label">Téléphone</label>
+            <input type="text" class="form-control" id="telephone" [(ngModel)]="editingContact.telephone" name="telephone" required>
+          </div>
+          <div class="mb-3">
+            <label for="imageUrl" class="form-label">Image URL</label>
+            <input type="text" class="form-control" id="imageUrl" [(ngModel)]="editingContact.imageUrl" name="imageUrl">
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Statut</label>
+            <input type="text" class="form-control" id="status" [(ngModel)]="editingContact.status" name="status">
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Annuler</button>
+        </form>
       </div>
+    </div>
+
+    <app-add-contact *ngIf="showAddContact" (contactAdded)="onContactAdded()"></app-add-contact>
+  </div>
+</div>
