@@ -1,1 +1,24 @@
-<p>user-login works!</p>
+<div class="topContainer">
+  <div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true">
+
+    <div class="signup">
+      <form (ngSubmit)="signUp()">
+        <label for="chk" aria-hidden="true">Sign up</label>
+        <input type="text" name="txt" placeholder="User name" [(ngModel)]="signupObjet.username" required>
+        <input type="email" name="email" placeholder="Email" [(ngModel)]="signupObjet.email" required>
+        <input type="password" name="pswd" placeholder="Password" [(ngModel)]="signupObjet.password" required>
+        <button type="submit">Sign up</button>
+      </form>
+    </div>
+
+    <div class="login">
+      <form (ngSubmit)="logIn()">
+        <label for="chk" aria-hidden="true">Login</label>
+        <input type="email" name="email" placeholder="Email" [(ngModel)]="loginObjet.email" required>
+        <input type="password" name="pswd" placeholder="Password" [(ngModel)]="loginObjet.password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
