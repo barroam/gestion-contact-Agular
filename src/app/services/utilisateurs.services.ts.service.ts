@@ -6,6 +6,7 @@ import { Utilisateur } from '../models/utilisateur';
 export class UtilisateurService {
   private utilisateurs: Utilisateur[] = [];
   private localStorageKey = 'utilisateurs';
+  private isLoggedInKey = 'isLoggedIn';
 
   constructor() {
     if (this.isLocalStorageAvailable()) {
@@ -50,7 +51,19 @@ export class UtilisateurService {
 
   login(email: string, password: string): boolean {
     const utilisateur = this.utilisateurs.find(u => u.email === email && u.password === password);
-    return utilisateur !== undefined;
+    if (utilisateur) {
+      localStorage.setItem(this.isLoggedInKey, 'true');
+      return true;
+    }
+    return false;
+  }
+
+  logout(): void {
+    localStorage.setItem(this.isLoggedInKey, 'false');
+  }
+
+  isLoggedIn(): boolean {
+    return localStorage.getItem(this.isLoggedInKey) === 'true';
   }
 
 }
