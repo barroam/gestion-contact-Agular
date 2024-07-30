@@ -5,6 +5,7 @@ import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact';
 import { AddContactComponent } from '../add-contact/add-contact.component';
 import { RouterLink } from '@angular/router';
+import { Utilisateur } from '../models/utilisateur';
 import { UtilisateurService } from '../services/utilisateurs.services.ts.service';
 import { Router } from '@angular/router';
 @Component({
@@ -22,8 +23,14 @@ export class ListContactComponent implements OnInit {
   editingContact: Contact | null = null;
   showAddContact: boolean = false;
   showDeletedContacts: boolean = false;
+ utilisateur:Utilisateur[]=[];
 
-  constructor(private contactService: ContactService, private utilisateurService: UtilisateurService, private router: Router) {}
+  constructor(
+    private contactService: ContactService,
+   private utilisateurService:UtilisateurService,
+   private router:Router
+  ) {}
+
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
@@ -82,8 +89,10 @@ export class ListContactComponent implements OnInit {
       contact.email.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
+
   logout(): void {
     this.utilisateurService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']); 
   }
+
 }

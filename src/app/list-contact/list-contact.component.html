@@ -60,15 +60,15 @@
       </div>
 
       <button (click)="toggleDeletedContacts()" class="btn btn-secondary mt-4">
-        {{ showDeletedContacts ? ' Masquer ' : 'Afficher ' }}Les Contacts supprimer
+        {{ showDeletedContacts ? ' Masquer ' : 'Afficher ' }}Les Contacts supprimés
       </button>
 
       <div *ngIf="showDeletedContacts" class="mt-4">
-        <h3>Contacts supprimer</h3>
+        <h3>Contacts supprimés</h3>
         <ul class="list-group">
           <li *ngFor="let contact of deletedContacts" class="list-group-item d-flex justify-content-between align-items-center">
             {{ contact.nom }} ({{ contact.email }})
-            <button class="btn btn-sm btn-outline-success" (click)="restoreContact(contact.email)">Restorer</button>
+            <button class="btn btn-sm btn-outline-success" (click)="restoreContact(contact.email)">Restaurer</button>
           </li>
         </ul>
       </div>
@@ -101,7 +101,6 @@
         </form>
       </div>
     </div>
-
     <app-add-contact *ngIf="showAddContact" (contactAdded)="onContactAdded()"></app-add-contact>
   </div>
 </div>
