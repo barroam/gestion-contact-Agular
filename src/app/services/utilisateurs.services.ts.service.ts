@@ -84,4 +84,7 @@ export class UtilisateurService {
       localStorage.removeItem(this.currentUserKey);
     }
   }
+  isLoggedIn(): boolean {
+    return this.getCurrentUser() !== null;
+  }
 }

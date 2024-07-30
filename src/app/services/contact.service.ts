@@ -58,7 +58,7 @@ export class ContactService {
   addContact(contact: Contact): void {
     const currentUser = this.utilisateurService.getCurrentUser();
     if (currentUser) {
-      contact.userId = currentUser.email; 
+      contact.userId = currentUser.email;
       this.contacts.push(contact);
       this.saveContactsToLocalStorage();
     } else {
